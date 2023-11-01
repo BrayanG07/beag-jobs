@@ -20,7 +20,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [VacantController::class, 'index'])->middleware(['auth', 'verified'])->name('vacants.index');
-Route::get('/vacants/create', [VacantController::class, 'create'])->middleware(['auth', 'verified'])->name('vacants.create');
+
+Route::middleware(['auth', 'verified'])->prefix('vacants')->name('vacants.')->group(function () {
+    Route::get('/create', [VacantController::class, 'create'])->name('create');
+    Route::get('/{vacant}/edit', [VacantController::class, 'edit'])->name('edit');
+    Route::get('/{vacant}', [VacantController::class, 'show'])->name('show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

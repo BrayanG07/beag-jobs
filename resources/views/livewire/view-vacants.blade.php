@@ -4,7 +4,7 @@
             <div
                 class="p-6 text-gray-900 border-b border-gray-200 dark:text-gray-100 md:flex md:justify-between md:items-center">
                 <div class="space-y-3">
-                    <a href="#" class="text-xl font-bold">
+                    <a href="{{ route('vacants.show', $vacant->id) }}" class="text-xl font-bold">
                         {{ $vacant->title }}
                     </a>
                     <p class="text-sm text-gray-600 dark:text-gray-100 font-bold">
@@ -20,14 +20,14 @@
                         class="bg-indigo-600 py-2 px-4 rounded text-white text-xs font-bold uppercase text-center">
                         Candidatos
                     </a>
-                    <a href="#"
+                    <a href="{{ route('vacants.edit', $vacant->id) }}"
                         class="bg-amber-600 py-2 px-6 rounded text-white text-xs font-bold uppercase text-center">
                         Editar
                     </a>
-                    <a href="#"
+                    <button wire:click="$dispatch('viewAlert', { vacantId: {{ $vacant->id }} })"
                         class="bg-red-600 py-2 px-5 rounded text-white text-xs font-bold uppercase text-center">
                         Eliminar
-                    </a>
+                    </button>
                 </div>
             </div>
         @empty
@@ -41,3 +41,38 @@
     </div>
 
 </div>
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            @this.on('viewAlert', ({
+                vacantId
+            }) => {
+                Swal.fire({
+                    title: '¿Eliminar Vacante?',
+                    text: "Una vacante eliminada no se puede recuperar",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, ¡Eliminar!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // * Enviando el evento a ViewVacants.php con su respectivo parametro
+                        @this.dispatch('deleteVacant', {
+                            vacant: vacantId
+                        });
+
+                        Swal.fire(
+                            '¡Eliminado!',
+                            'La vacante ha sido eliminada.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        });
+    </script>
+@endpush

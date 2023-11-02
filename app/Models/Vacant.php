@@ -44,4 +44,11 @@ class Vacant extends Model
         // En este caso, una vacante puede tener muchos candidatos.
         return $this->hasMany(Candidate::class);
     }
+
+    public function recruiter()
+    {
+        // Esta función define una relación entre el modelo Vacant y el modelo User.
+        // Indica que una vacante pertenece a un usuario (recruiter).
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

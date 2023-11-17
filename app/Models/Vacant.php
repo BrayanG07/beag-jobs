@@ -42,7 +42,7 @@ class Vacant extends Model
     {
         // La función hasMany() establece una relación de "tiene muchos".
         // En este caso, una vacante puede tener muchos candidatos.
-        return $this->hasMany(Candidate::class);
+        return $this->hasMany(Candidate::class)->orderBy('created_at', 'desc');
     }
 
     public function recruiter()

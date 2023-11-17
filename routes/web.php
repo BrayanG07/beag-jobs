@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacantController;
@@ -16,11 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomeController::class)->name('home'); // * Controlador invokable
 
-Route::get('/dashboard', [VacantController::class, 'index'])->middleware(['auth', 'verified'])->name('vacants.index');
+Route::get('/dashboard', [VacantController::class, 'index'])->middleware(['auth', 'verified', 'rol.user'])->name('vacants.index');
 
 Route::middleware(['auth', 'verified'])->prefix('vacants')->name('vacants.')->group(function () {
     Route::get('/create', [VacantController::class, 'create'])->name('create');
@@ -28,12 +28,14 @@ Route::middleware(['auth', 'verified'])->prefix('vacants')->name('vacants.')->gr
     Route::get('/{vacant}', [VacantController::class, 'show'])->name('show');
 });
 
+Route::get('candidates/{vacant}', [CandidateController::class, 'index'])->name('candidates.index');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/notifications', NotificationController::class)->name('notifications');
+Route::get('/notifications', NotificationController::class)->middleware(['auth', 'verified', 'rol.user'])->name('notifications');
 
 require __DIR__.'/auth.php';

@@ -11,22 +11,27 @@
                 </div>
 
                 @auth
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('vacants.index')" :active="request()->routeIs('vacants.index')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('vacants.create')" :active="request()->routeIs('vacants.create')">
-                        {{ __('Crear Vacante') }}
-                    </x-nav-link>
-                </div>
+                    @can('create', App\Models\Vacant::class)
+                        <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('vacants.index')" :active="request()->routeIs('vacants.index')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('vacants.create')" :active="request()->routeIs('vacants.create')">
+                                {{ __('Crear Vacante') }}
+                            </x-nav-link>
+                        </div>
+                    @endcan
                 @endauth
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
-                @if (auth()->user()->rol === 2)
+                {{-- La directiva '@can' de Blade se utiliza para verificar si el usuario actual tiene un determinado permiso.
+                En este caso, estamos verificando si el usuario tiene permiso para crear una instancia de 'Vacant'.
+                'create' es el nombre del permiso que estamos verificando de VacantPolicy --}}
+                @can('create', App\Models\Vacant::class)
                 <a href="{{ route('notifications') }}" class="relative inline-block mr-4">
                     <div class="bg-indigo-600 text-white rounded-full w-7 h-7 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -43,7 +48,8 @@
                     </span>
                     @endif
                 </a>
-                @endif
+                @endcan
+
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -129,7 +135,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
                         </svg>
-    
+
                     </div>
                     @if (Auth::user()->unreadNotifications->count() > 0)
                     <span

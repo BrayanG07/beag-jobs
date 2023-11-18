@@ -3,15 +3,14 @@
 </div>
 
 ## Installation
-1. Crear el archivo .env y llenar las propiedades necesarias, ejecuta el sigiuente comando:
+1. Crear el archivo .env y llenar las propiedades necesarias, ejecuta el siguiente comando:
 ```
 cp .env.example .env
 ```
 
-2. Crear la base de datos, en tu gestor de base de datos favorito o mediante la CLI.
-
-3. Ejecutar las migraciones, mediante el siguiente comando:
-```
+3. Ejecutar las migraciones con el siguiente comando:
+``` bash
+# Si aun no tienes creada la base de datos te aparecera un mensaje como el siguiente: Would you like to create it? (yes/no). ingresa: yes
 php artisan migrate
 ```
 

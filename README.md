@@ -1,24 +1,39 @@
-<center>
-  <h2>DevJobs</h2>
-</center>
+<div align="center">
+  <h1>BeagJobs</h1>
+</div>
 
 ## Installation
-- Instalacion breeze
+1. Crear el archivo .env y llenar las propiedades necesarias, ejecuta el sigiuente comando:
 ```
-composer require laravel/breeze --dev
-php artisan breeze:install
+cp .env.example .env
+```
+
+2. Crear la base de datos, en tu gestor de base de datos favorito o mediante la CLI.
+
+3. Ejecutar las migraciones, mediante el siguiente comando:
+```
 php artisan migrate
 ```
 
-- Traduccion de validacionees:
+4. Ejecutar el seed para configurar el proyecto con los datos requeridos para su correcto funcionamiento:
 ```
-git clone https://github.com/MarcoGomesr/laravel-validation-en-espanol.git resources/lang/es
-```
-
-- Instalacion Livewire
-```
-composer require livewire/livewire
+php artisan db:seed
 ```
 
-## License
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Ejecutar el proyecto:
+```
+php artisan serve
+npm run dev
+```
+
+6. Al ejecutar el comando ```php artisan serve``` obtendra una URL como la siguiente:
+``` bash
+# Example
+Server running on [http://127.0.0.1:8000].
+```
+
+7. Ingrese a la url ```http://127.0.0.1:8000``` con su navegador de preferencia y disfrute del sistema.
+
+
+## Author
+Ing. Brayan Alvarez
